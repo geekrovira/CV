@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Interactivo - Bruno Castañeda Rovira</title>
+    <!-- Chosen Palette: Neutral Professional -->
+    <!-- Application Structure Plan: Se ha diseñado una aplicación de una sola página con desplazamiento vertical y una barra de navegación lateral fija para un acceso rápido a las secciones clave: Perfil, Logros, Experiencia, Habilidades y Educación. Esta estructura permite a los usuarios obtener una visión general rápida y, al mismo tiempo, profundizar en áreas específicas de interés. La sección de Habilidades es interactiva con filtros para facilitar la evaluación de competencias por categoría, y se incluye un gráfico de radar para visualizar las áreas de mayor fortaleza de un vistazo. Esta arquitectura prioriza la facilidad de navegación y la síntesis de información sobre una presentación lineal tradicional, mejorando la usabilidad para los reclutadores. -->
+    <!-- Visualization & Content Choices: 
+        - Perfil Profesional: Bloque de texto estático para una introducción clara (Goal: Inform).
+        - Logros Clave: Rejilla de tarjetas con iconos Unicode para resaltar los hitos más importantes de forma visualmente atractiva y escaneable (Goal: Inform, Impress -> Method: HTML/Tailwind).
+        - Experiencia Laboral: Línea de tiempo vertical para presentar la trayectoria profesional de forma cronológica e intuitiva (Goal: Organize, Inform -> Method: HTML/Tailwind).
+        - Habilidades: Rejilla de etiquetas con botones de filtro (Gestión, Ciberseguridad, IA, Infraestructura) para permitir una exploración interactiva y enfocada de las competencias (Goal: Organize, Compare -> Method: HTML/Tailwind + JS Interaction).
+        - Gráfico de Radar de Habilidades: Un gráfico de Chart.js visualiza las principales áreas de competencia, ofreciendo un resumen cuantitativo y visual de las fortalezas del perfil (Goal: Compare, Inform -> Library: Chart.js/Canvas).
+        - Justification: La combinación de texto, elementos visuales estructurados, interactividad y una visualización de datos clave crea una experiencia completa que es a la vez informativa y atractiva, permitiendo una evaluación rápida y profunda del candidato.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            color: #343A40;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .nav-link.active {
+            background-color: #3498db;
+            color: white;
+        }
+        .skill-btn.active {
+            background-color: #3498db;
+            color: white;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            left: -0.5rem;
+            top: 0.25rem;
+            background-color: #3498db;
+            border: 3px solid #F8F9FA;
+        }
+    </style>
+</head>
+<body class="leading-normal">
+
+    <div class="flex flex-col md:flex-row">
+        
+        <nav id="navbar" class="md:w-64 bg-white md:h-screen md:fixed top-0 left-0 p-4 shadow-lg flex flex-row md:flex-col justify-around md:justify-start z-20">
+            <h2 class="text-xl font-bold text-center text-gray-800 border-b pb-4 mb-4 hidden md:block">Navegación</h2>
+            <a href="#perfil" class="nav-link text-center md:text-left py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-gray-200">Perfil</a>
+            <a href="#logros" class="nav-link text-center md:text-left py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-gray-200">Logros</a>
+            <a href="#experiencia" class="nav-link text-center md:text-left py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-gray-200">Experiencia</a>
+            <a href="#habilidades" class="nav-link text-center md:text-left py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-gray-200">Habilidades</a>
+            <a href="#educacion" class="nav-link text-center md:text-left py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-gray-200">Educación</a>
+        </nav>
+
+        <main class="flex-1 md:ml-64 p-4 md:p-10">
+            
+            <section id="perfil" class="mb-16 scroll-mt-20">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="text-center">
+                        <h1 class="text-4xl font-bold text-gray-800">BRUNO CASTAÑEDA ROVIRA</h1>
+                        <p class="text-xl text-gray-600 mt-2">Gerente de TI | Líder de Proyectos | Gestión de Infraestructura | Ciberseguridad</p>
+                        <div class="flex justify-center items-center space-x-6 mt-4 text-gray-500">
+                            <span>7222020930</span>
+                            <span>&#x2022;</span>
+                            <span>bruno.castaneda.rovira@gmail.com</span>
+                            <span>&#x2022;</span>
+                            <span>Toluca, México</span>
+                        </div>
+                    </div>
+                    <hr class="my-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Perfil Profesional</h3>
+                    <p class="text-gray-700 text-justify">
+                        Profesional con más de 15 años de experiencia en gestión de infraestructura, ciberseguridad y sistemas de TI. Poseo un conjunto completo de habilidades en sistemas de red, gestión de proyectos y planificación estratégica. Mi carrera se destaca por exitosas negociaciones con proveedores y actualizaciones de infraestructura que mejoraron considerablemente la estabilidad y el rendimiento del sistema. Experiencia sólida en liderazgo de equipos, implementación de metodologías ágiles (Scrum, ITIL) y mejora continua de procesos. Con dominio en Voz IP y redes, capacidad para liderar incidentes críticos (Incident Manager) y experiencia en auditorías internas y externas. Experto en ciberseguridad, incluyendo gestión de la operación diaria del área, monitoreo (SOC), SIEM, EDR, Pentesting (caja negra, gris y blanca a sistemas web, aplicaciones móviles, Cloud y desarrollos internos), identificación de vulnerabilidades (alineadas a MITRE ATT&CK), diseño de controles para mitigar y monitorear hallazgos, implementación de políticas y procesos de seguridad de la información, evaluación de la integridad, confiabilidad, disponibilidad y confidencialidad, y cumplimiento normativo como ISO 27001 y NIST. Además, cuento con conocimientos en Inteligencia Artificial (IA), familiaridad con frameworks como Scikit-learn y PyTorch, y experiencia en el desarrollo de agentes inteligentes para detección y prevención de amenazas, y automatización de procesos de seguridad.
+                    </p>
+                </div>
+            </section>
+
+            <section id="logros" class="mb-16 scroll-mt-20">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Logros Clave</h2>
+                 <p class="mb-8 text-gray-600">Esta sección destaca los hitos más significativos de mi carrera, cuantificando el impacto de mis contribuciones en la eficiencia operativa, la reducción de costos y la mejora de la seguridad y el rendimiento de los sistemas.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                        <span class="text-4xl text-blue-500">🔄</span>
+                        <h3 class="font-bold text-lg mt-2">Liderazgo en Transformación ERP</h3>
+                        <p class="text-gray-600 mt-1">Aumentó la eficiencia operativa en un 30% a nivel empresarial.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                        <span class="text-4xl text-green-500">💰</span>
+                        <h3 class="font-bold text-lg mt-2">Optimización de Infraestructura IT</h3>
+                        <p class="text-gray-600 mt-1">Redujo costos en un 20% y mejoró la disponibilidad del sistema en un 35%.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                        <span class="text-4xl text-purple-500">🎯</span>
+                        <h3 class="font-bold text-lg mt-2">Gestión de Proyectos Exitosos</h3>
+                        <p class="text-gray-600 mt-1">Liderazgo en más de 15 proyectos con una tasa de éxito del 95%.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                         <span class="text-4xl text-yellow-500">🛡️</span>
+                        <h3 class="font-bold text-lg mt-2">Reducción de Vulnerabilidades</h3>
+                        <p class="text-gray-600 mt-1">Implementación de protocolos que redujeron vulnerabilidades en un 50%.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                        <span class="text-4xl text-red-500">📈</span>
+                        <h3 class="font-bold text-lg mt-2">Implementación de Soluciones SOC/SIEM</h3>
+                        <p class="text-gray-600 mt-1">Mejoró la detección y respuesta a amenazas en un 25%.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                         <span class="text-4xl text-indigo-500">🧠</span>
+                        <h3 class="font-bold text-lg mt-2">Desarrollo de Algoritmos de IA</h3>
+                        <p class="text-gray-600 mt-1">Contribución al análisis predictivo de amenazas con Scikit-learn y PyTorch.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="experiencia" class="mb-16 scroll-mt-20">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Experiencia Laboral</h2>
+                <p class="mb-8 text-gray-600">A continuación se detalla mi trayectoria profesional en orden cronológico inverso. Cada rol incluye las responsabilidades y logros clave que demuestran mi capacidad para liderar equipos, gestionar proyectos complejos y fortalecer la infraestructura y seguridad tecnológica.</p>
+                <div class="relative border-l-2 border-gray-200 pl-8">
+                    <div class="mb-12 timeline-item">
+                        <h3 class="text-xl font-bold">Líder de Proyecto TI</h3>
+                        <p class="font-semibold text-gray-600">TUTUM | CDMX, México</p>
+                        <p class="text-sm text-gray-500">08/2022 – Presente</p>
+                        <ul class="list-disc list-inside mt-2 text-gray-700 space-y-1">
+                            <li>Supervisión de la implementación de 5 proyectos de infraestructura de TI.</li>
+                            <li>Gestión de presupuestos de más de 80 millones de USD.</li>
+                            <li>Implementación de Metodologías ágiles y framework de ITIL.</li>
+                            <li>Colaboración en la integración de soluciones de ciberseguridad en nuevos proyectos.</li>
+                        </ul>
+                    </div>
+                    <div class="mb-12 timeline-item">
+                        <h3 class="text-xl font-bold">IT MANAGER</h3>
+                        <p class="font-semibold text-gray-600">IGSA MEDICAL SERVICES | CDMX, México</p>
+                        <p class="text-sm text-gray-500">01/2020 – 08/2022</p>
+                        <ul class="list-disc list-inside mt-2 text-gray-700 space-y-1">
+                            <li>Liderazgo en la gestión de la operación diaria del área de ciberseguridad.</li>
+                            <li>Participación activa en la presentación de auditorías de ciberseguridad internas y externas.</li>
+                            <li>Implementación y monitoreo de soluciones de seguridad como SIEM y EDR.</li>
+                            <li>Diseño e implementación de planes de Continuidad del Negocio (BCP) y Recuperación ante Desastres (DRP).</li>
+                        </ul>
+                    </div>
+                    <div class="mb-12 timeline-item">
+                        <h3 class="text-xl font-bold">IT MANAGER</h3>
+                        <p class="font-semibold text-gray-600">CHT Concesionaria Hospital Toluca | Toluca, México</p>
+                        <p class="text-sm text-gray-500">01/2014 – 2020</p>
+                        <ul class="list-disc list-inside mt-2 text-gray-700 space-y-1">
+                            <li>Liderazgo de un equipo de diez ingenieros, mejorando la satisfacción del usuario en un 35%.</li>
+                            <li>Modernización y optimización del centro de datos para la certificación ICREA II.</li>
+                            <li>Gestión integral de proveedores externos y Acuerdos de Nivel de Servicio (SLA).</li>
+                            <li>Supervisión y mejora de la infraestructura de seguridad informática y cumplimiento normativo.</li>
+                        </ul>
+                    </div>
+                     <div class="mb-12 timeline-item">
+                        <h3 class="text-xl font-bold">Analista de Seguridad y Redes</h3>
+                        <p class="font-semibold text-gray-600">IGSA Power</p>
+                        <p class="text-sm text-gray-500">08/2011 – 12/2013</p>
+                        <ul class="list-disc list-inside mt-2 text-gray-700 space-y-1">
+                            <li>Ejecución de pruebas de penetración (pentesting) sobre software y hardware.</li>
+                            <li>Implementación de herramientas SIEM para centralizar y analizar datos de seguridad.</li>
+                            <li>Configuración y gestión de firewalls, IDS/IPS y DLP.</li>
+                            <li>Elaboración de informes técnicos y ejecutivos alineados a metodologías de pentesting.</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <h3 class="text-xl font-bold">Ingeniero de Campo</h3>
+                        <p class="font-semibold text-gray-600">Elektra</p>
+                        <p class="text-sm text-gray-500">12/2009 – 05/2011</p>
+                        <ul class="list-disc list-inside mt-2 text-gray-700 space-y-1">
+                            <li>Administración y mantenimiento de servidores físicos y virtuales.</li>
+                            <li>Diagnóstico y reparación de fallas técnicas en equipos y sistemas.</li>
+                            <li>Implementación de un programa de mantenimiento preventivo que redujo fallas recurrentes en un 30%.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="habilidades" class="mb-16 scroll-mt-20">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Habilidades Técnicas y Blandas</h2>
+                <p class="mb-8 text-gray-600">Esta sección ofrece una vista detallada de mis competencias. Puede filtrar las habilidades por categoría para encontrar rápidamente las competencias relevantes para sus necesidades. Además, el gráfico de radar proporciona un resumen visual de mis áreas de especialización.</p>
+                <div class="flex flex-wrap justify-center gap-2 mb-8">
+                    <button class="skill-btn active px-4 py-2 bg-gray-200 text-gray-800 rounded-full font-semibold" data-filter="all">Todas</button>
+                    <button class="skill-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-full font-semibold" data-filter="gestion">Gestión y Liderazgo</button>
+                    <button class="skill-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-full font-semibold" data-filter="ciberseguridad">Ciberseguridad</button>
+                    <button class="skill-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-full font-semibold" data-filter="ia">IA y ML</button>
+                    <button class="skill-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-full font-semibold" data-filter="infraestructura">Infraestructura</button>
+                </div>
+                
+                <div id="skills-container" class="flex flex-wrap gap-3 justify-center">
+                    <span class="skill-item bg-blue-100 text-blue-800 px-3 py-1 rounded-full" data-category="gestion">Gestión de Proyectos (Agile, ITIL)</span>
+                    <span class="skill-item bg-blue-100 text-blue-800 px-3 py-1 rounded-full" data-category="gestion">Liderazgo de Equipos</span>
+                    <span class="skill-item bg-blue-100 text-blue-800 px-3 py-1 rounded-full" data-category="gestion">Planeación Estratégica</span>
+                    <span class="skill-item bg-blue-100 text-blue-800 px-3 py-1 rounded-full" data-category="gestion">Gestión de Presupuestos</span>
+                    <span class="skill-item bg-blue-100 text-blue-800 px-3 py-1 rounded-full" data-category="gestion">Negociación con Proveedores</span>
+                    
+                    <span class="skill-item bg-red-100 text-red-800 px-3 py-1 rounded-full" data-category="ciberseguridad">Pentesting</span>
+                    <span class="skill-item bg-red-100 text-red-800 px-3 py-1 rounded-full" data-category="ciberseguridad">MITRE ATT&CK</span>
+                    <span class="skill-item bg-red-100 text-red-800 px-3 py-1 rounded-full" data-category="ciberseguridad">SIEM (Splunk)</span>
+                    <span class="skill-item bg-red-100 text-red-800 px-3 py-1 rounded-full" data-category="ciberseguridad">EDR</span>
+                    <span class="skill-item bg-red-100 text-red-800 px-3 py-1 rounded-full" data-category="ciberseguridad">ISO 27001</span>
+                    <span class="skill-item bg-red-100 text-red-800 px-3 py-1 rounded-full" data-category="ciberseguridad">NIST</span>
+                    <span class="skill-item bg-red-100 text-red-800 px-3 py-1 rounded-full" data-category="ciberseguridad">Nessus</span>
+                    <span class="skill-item bg-red-100 text-red-800 px-3 py-1 rounded-full" data-category="ciberseguridad">Metasploit</span>
+                    <span class="skill-item bg-red-100 text-red-800 px-3 py-1 rounded-full" data-category="ciberseguridad">Burp Suite</span>
+                    <span class="skill-item bg-red-100 text-red-800 px-3 py-1 rounded-full" data-category="ciberseguridad">Kali Linux</span>
+
+                    <span class="skill-item bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full" data-category="ia">TensorFlow</span>
+                    <span class="skill-item bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full" data-category="ia">PyTorch</span>
+                    <span class="skill-item bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full" data-category="ia">Scikit-learn</span>
+                    <span class="skill-item bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full" data-category="ia">Agentes Inteligentes</span>
+
+                    <span class="skill-item bg-green-100 text-green-800 px-3 py-1 rounded-full" data-category="infraestructura">Gestión de ERP (Oracle)</span>
+                    <span class="skill-item bg-green-100 text-green-800 px-3 py-1 rounded-full" data-category="infraestructura">Linux</span>
+                    <span class="skill-item bg-green-100 text-green-800 px-3 py-1 rounded-full" data-category="infraestructura">Windows Server</span>
+                    <span class="skill-item bg-green-100 text-green-800 px-3 py-1 rounded-full" data-category="infraestructura">VMWARE</span>
+                    <span class="skill-item bg-green-100 text-green-800 px-3 py-1 rounded-full" data-category="infraestructura">Hyper-V</span>
+                    <span class="skill-item bg-green-100 text-green-800 px-3 py-1 rounded-full" data-category="infraestructura">Veeam</span>
+                    <span class="skill-item bg-green-100 text-green-800 px-3 py-1 rounded-full" data-category="infraestructura">Voz IP (Cisco)</span>
+                </div>
+
+                <div class="mt-12">
+                    <div class="chart-container">
+                        <canvas id="skillsChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="educacion" class="scroll-mt-20">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Educación</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold">Ingeniero en Sistemas Computacionales</h3>
+                    <p class="font-semibold text-gray-600">Universidad ICEL</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const skillButtons = document.querySelectorAll('.skill-btn');
+            const skillItems = document.querySelectorAll('.skill-item');
+
+            skillButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.dataset.filter;
+
+                    skillButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    skillItems.forEach(item => {
+                        if (filter === 'all' || item.dataset.category === filter) {
+                            item.style.display = 'inline-block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            const skillsChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Ciberseguridad', 'Gestión y Liderazgo', 'Infraestructura', 'IA y ML'],
+                    datasets: [{
+                        label: 'Nivel de Especialización',
+                        data: [16, 10, 10, 4],
+                        backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                        borderColor: 'rgba(52, 152, 219, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(52, 152, 219, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(52, 152, 219, 1)'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                color: '#343A40'
+                            },
+                            ticks: {
+                                backdropColor: 'transparent',
+                                stepSize: 4
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.r !== null) {
+                                        label += 'Representado por ' + context.parsed.r + ' habilidades clave';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
